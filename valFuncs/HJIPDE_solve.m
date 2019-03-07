@@ -439,9 +439,9 @@ if (isfield(extraArgs, 'visualize') && extraArgs.visualize)...
     c = camlight;
     
     if isfield(extraArgs, 'camlightPosition')
-        c.Position = extraArgs.camlightPosition;
+        set(c,"Position",extraArgs.camlightPosition);
     else
-        c.Position = [-30 -30 -30];
+        set(c,"Position",[-30 -30 -30]);
     end
     
     if isfield(extraArgs, 'viewGrid') && ~extraArgs.viewGrid
