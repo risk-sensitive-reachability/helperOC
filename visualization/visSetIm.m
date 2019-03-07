@@ -122,21 +122,28 @@ end
 
 switch g.dim
   case 1
-    h = plot(g.xs{1}, data, '-', 'color', color);
+    h = plot(g.xs{1}, data, '-', 'linecolor', color);
     hold on
     plot(g.xs{1}, zeros(size(g.xs{1})), 'k:')
     
   case 2
     if isscalar(level)
-      [~, h] = contour(g.vs{1}, g.vs{2}, data', [level level], 'color', color);
+      [~, h] = contour(g.vs{1}, g.vs{2}, data', [level level], 'linecolor', color);
     elseif isempty(level)
       [~, h] = contour(g.vs{1}, g.vs{2}, data');
     else
-      [~, h] = contour(g.vs{1}, g.vs{2}, data', level, 'color', color);
+      [~, h] = contour(g.vs{1}, g.vs{2}, data', level, 'linecolor', color);
+
+    end
+
+    if isfield(extraArgs, 'LineStyle')
+        set(h,"LineStyle",LineStyle);
     end
     
-    h.LineStyle = LineStyle;
-    h.LineWidth = LineWidth;
+    if isfield(extraArgs, 'LineWidth')
+        set(h,"LineWidth",LineStyle);
+    end
+
   case 3
     h = visSetIm3D(g, data, color, level, applyLight);
     
@@ -155,8 +162,9 @@ function h = visSetIm3D(g, data, color, level, applyLight)
 
 h = patch(isosurface(mesh_xs{:}, mesh_data, level));
 isonormals(mesh_xs{:}, mesh_data, h);
-h.FaceColor = color;
-h.EdgeColor = 'none';
+
+set(h,"FaceColor",color);
+set(h,"EdgeColor",'none');
 
 if applyLight
   lighting phong
