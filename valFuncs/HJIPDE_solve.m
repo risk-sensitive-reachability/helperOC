@@ -534,7 +534,7 @@ if strcmp(compMethod, 'minWithZero') || strcmp(compMethod, 'zero')
 end
 
 %% Time integration
-integratorOptions = odeCFLset('factorCFL', 0.8, 'singleStep', 'on');
+integratorOptions = odeCFLset('factorCFL', 0.8, 'singleStep', 'on', 'maxStep', 30);
 
 startTime = cputime;
 
