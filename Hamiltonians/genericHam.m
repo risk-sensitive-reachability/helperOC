@@ -28,6 +28,31 @@ else
   u = dynSys.optCtrl(t, schemeData.grid.xs, deriv, schemeData.uMode);
 end
 
+global uOpt_previous; 
+global control_update_available; 
+global uU_previous; 
+global uL_previous;
+global config; 
+
+if t == 0
+    uOpt_previous = 0; 
+    uU_previous = 0; 
+    uL_previous = 0; 
+    control_update_available = 0; 
+end
+
+if t >= control_update_available
+
+    disp('hamiltonian: new optimal control'); 
+    uOpt_previous = u; 
+    % time update in genericPartial 
+   % control_update_available = control_update_available + config.dt; 
+else 
+   % disp('hamiltonian: previous optimal control'); 
+end
+
+u = uOpt_previous; 
+
 if isfield(schemeData, 'dIn')
   d = schemeData.dIn;
 else

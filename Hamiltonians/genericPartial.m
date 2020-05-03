@@ -42,6 +42,44 @@ else
   uL = dynSys.optCtrl(t, g.xs, derivMin, schemeData.uMode);
 end
 
+global control_update_available; 
+global uU_previous; 
+global uL_previous;
+global config; 
+
+if isempty(uU_previous) error(); end
+if isempty(uL_previous) error(); end
+if isempty(control_update_available) error(); end
+%if (control_update_available == config.dt * config.N) control_update_available = 0; end
+
+if t >= control_update_available 
+   
+    uU_previous = uU; 
+    uL_previous = uL; 
+    control_update_available = t + config.dt;
+
+    
+   % disp('dissipation controls updated'); 
+   
+else 
+   % disp('dissipation controls from previous'); 
+    
+end
+    
+uL = uL_previous;
+uU = uU_previous; 
+
+%previous_control = uOpt;
+%         control_timeout = control_timeout + 120; 
+%         
+%     else
+%         
+%         uOpt = previous_control;
+%         
+%     end
+
+
+
 %% Compute disturbance
 if isfield(schemeData, 'dIn')
   dU = schemeData.dIn;
